@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">Bohinj Weather Info</string>
+    <string name="menu_settings">Nastavitve</string>
+    <string name="title_activity_bohinj_weather_info">Bohinj Weather Info</string>
+    <string name="osvezi">Osveži</string>
+    <string name="dataosvezi">Osveži</string>
+    <string name="datacanceltext">Nalagam...</string>
+
+</resources>
