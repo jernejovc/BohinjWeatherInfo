@@ -1,6 +1,7 @@
 package com.jernejovc.bohinjweatherinfo;
 
-import webcamengine.WebcamEngine;
+import com.jernejovc.bohinjweatherinfo.webcamengine.WebcamEngine;
+
 import android.graphics.drawable.PaintDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

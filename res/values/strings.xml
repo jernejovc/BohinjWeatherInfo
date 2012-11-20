@@ -1,11 +1,10 @@
 <resources>
 
     <string name="app_name">Bohinj Weather Info</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="menu_settings">Nastavitve</string>
+    <string name="menu_settings">Settings</string>
     <string name="title_activity_bohinj_weather_info">Bohinj Weather Info</string>
-    <string name="osvezi">Osveži</string>
-    <string name="dataosvezi">Osveži</string>
-    <string name="datacanceltext">Nalagam... (pritisnite za preklic)</string>
+    <string name="osvezi">Refresh</string>
+    <string name="dataosvezi">Refresh</string>
+    <string name="datacanceltext">Loading...</string>
 
 </resources>
