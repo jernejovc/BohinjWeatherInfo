@@ -1,10 +1,17 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">Bohinj Weather Info</string>
     <string name="menu_settings">Nastavitve</string>
     <string name="title_activity_bohinj_weather_info">Bohinj Weather Info</string>
     <string name="osvezi">Osveži</string>
     <string name="dataosvezi">Osveži</string>
-    <string name="datacanceltext">Nalagam...</string>
+    <string name="datacanceltext" tools:ignore="TypographyEllipsis">Nalagam...</string>
+    <string name="forecastDataTimeString">Podatki osveženi ob: %s</string>
+    <string name="forecastProviderString">"Za vremensko napoved skrbi "</string>
+    <string name="forecastDataTimeStringRefresh">Pritisni za pridobitev podatkov</string>
+    <string name="dataTabName">Podatki</string>
+    <string name="camsTabName">Kamere</string>
+    <string name="forecastTabName">Napoved</string>
+    <string name="forecastNotAvailableText">Vremenska napoved ni na voljo</string>
 
 </resources>

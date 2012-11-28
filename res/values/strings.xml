@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name">Bohinj Weather Info</string>
     <string name="menu_settings">Settings</string>
@@ -6,5 +6,11 @@
     <string name="osvezi">Refresh</string>
     <string name="dataosvezi">Refresh</string>
     <string name="datacanceltext">Loading...</string>
-
+    <string name="forecastDataTimeString" tools:ignore="MissingTranslation">Data time: %s</string>
+    <string name="forecastProviderString" tools:ignore="MissingTranslation">"Forecast provided by "</string>
+    <string name="forecastDataTimeStringRefresh">Tap to refresh data</string>
+    <string name="dataTabName">Data</string>
+    <string name="camsTabName">Cams</string>
+    <string name="forecastTabName">Forecast</string>
+    <string name="forecastNotAvailableText">Forecast not available</string>
 </resources>
