@@ -8,22 +8,33 @@
     
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="48dp" >
 
         <Spinner
             android:id="@+id/webcamSpinner"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="0.9" />
 
-        <Button
-            android:id="@+id/webcamRefreshButton"
+        <ImageView
+            android:id="@+id/webcamRefresh"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/osvezi" />
+            android:layout_weight="0.1"
+            android:minHeight="48dip"
+            android:minWidth="48dip"
+            android:src="@android:drawable/stat_notify_sync_noanim" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/webcamProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:visibility="visible" />
 
     <WebView
         android:id="@+id/webcamWebView"

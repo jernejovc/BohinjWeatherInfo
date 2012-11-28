@@ -9,33 +9,9 @@
     <!-- Screen Design for Photos -->
 
     <LinearLayout
-        android:id="@+id/dataprogresslayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" >
-
-        <ProgressBar
-            android:id="@+id/dataprogress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="cancelDataUpdate"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/dataCancelText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:onClick="cancelDataUpdate"
-            android:text="@string/datacanceltext"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/dataselectorlayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="48dp" >
 
         <Spinner
             android:id="@+id/dataSpinner"
@@ -43,11 +19,22 @@
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
-        <Button
-            android:id="@+id/dataRefreshButton"
+        <ImageView
+            android:id="@+id/dataRefresh"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@string/dataosvezi" />
+            android:minHeight="48dip"
+            android:minWidth="48dip"
+            android:src="@android:drawable/stat_notify_sync_noanim" />
+
+        <ProgressBar
+            android:id="@+id/dataprogress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dip"
+            android:minWidth="48dip"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <ListView
