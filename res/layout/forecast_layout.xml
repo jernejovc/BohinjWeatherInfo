@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp" >
+
+        <TextView
+            android:id="@+id/forecastDataTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_weight="0.9"
+            android:paddingLeft="5dp"
+            android:text="@string/forecastDataTimeStringRefresh"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ProgressBar
+            android:id="@+id/forecastProgress"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:minHeight="32dip"
+            android:minWidth="32dip"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/forecastRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_weight="0.1"
+            android:src="@android:drawable/stat_notify_sync_noanim"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/forecastList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/forecastProvidedLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/forecastProviderString"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:contentDescription="Forecast provider logo"
+            android:src="@drawable/logo_vreme_net"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+</LinearLayout>

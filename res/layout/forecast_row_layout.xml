@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/forecastRowDayLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.6"
+        android:orientation="vertical"
+        tools:ignore="UseCompoundDrawables" >
+
+        <TextView
+            android:id="@+id/forecastRowDayText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            tools:ignore="HardcodedText" >
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/forecastRowIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="Weather Icon"
+            android:scaleType="center"
+            android:src="@drawable/weather_not_available"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dataLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="0.4"
+        android:orientation="vertical"
+        tools:ignore="ContentDescription" >
+
+        <TextView
+            android:id="@+id/forecastRowTemperatureText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/forecastRowWindText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
+</LinearLayout>
