@@ -9,20 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SearchViewCompat;
-import android.support.v4.widget.SearchViewCompat.OnQueryTextListenerCompat;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuInflater;
 
 public class BohinjWeatherInfo extends SherlockFragmentActivity {
 
@@ -48,10 +41,12 @@ public class BohinjWeatherInfo extends SherlockFragmentActivity {
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
-		mTabsAdapter.addTab(bar.newTab().setText("Podatki").setIcon(R.drawable.ic_tab_data_selected),
+		mTabsAdapter.addTab(bar.newTab().setText(getResources().getString(R.string.dataTabName)).setIcon(R.drawable.ic_tab_data_selected),
 				DataFragment.class, null);  
-		mTabsAdapter.addTab(bar.newTab().setText("Kamere").setIcon(R.drawable.ic_tab_webcam_selected), 
+		mTabsAdapter.addTab(bar.newTab().setText(getResources().getString(R.string.camsTabName)).setIcon(R.drawable.ic_tab_webcam_selected), 
 				WebcamFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setText(getResources().getString(R.string.forecastTabName)).setIcon(R.drawable.ic_action_forecast), 
+				ForecastFragment.class, null);
 		
 	}
 
