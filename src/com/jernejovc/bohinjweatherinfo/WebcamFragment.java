@@ -8,12 +8,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 public class WebcamFragment extends Fragment{
@@ -23,9 +27,9 @@ public class WebcamFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.webcam_layout, container, false);
-
-		WebView web = (WebView) view.findViewById(R.id.webcamWebView) ; 
+		ProgressBar bar = (ProgressBar) view.findViewById(R.id.webcamProgress);
 		Spinner webspin = (Spinner) view.findViewById(R.id.webcamSpinner);
+		ImageView refresh = (ImageView) view.findViewById(R.id.webcamRefresh);
 		webcamEngine = new WebcamEngine();
 		int num_cams = webcamEngine.getWebcamUrls().size();
 		String[]webcam_names = new String[num_cams];
@@ -55,7 +59,14 @@ public class WebcamFragment extends Fragment{
 
 			}
 		});
-
+		
+		refresh.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				updateWebcamButton(v);
+			}
+		});
 		return view;
 	}
 
@@ -68,6 +79,8 @@ public class WebcamFragment extends Fragment{
 
 	public void updateWebcam(String cam_name){
 		WebView web = (WebView) getView().findViewById(R.id.webcamWebView);
+		ProgressBar bar = (ProgressBar) getView().findViewById(R.id.webcamProgress);
+		
 		String url = "about:blank";
 		for(String[] cam : webcamEngine.getWebcamUrls())
 		{
@@ -77,20 +90,36 @@ public class WebcamFragment extends Fragment{
 				break;
 			}
 		}
+		web.setVisibility(View.GONE);
+		bar.setVisibility(View.VISIBLE);
 		web.clearCache(true);
+		web.setBackgroundColor(0x000000ff);
 		String html = String.format("<html><body><img src=\"%s\" style=\"width:100%c\"/></body></html>", url, '%');
 		web.loadDataWithBaseURL("fake://blah",html, "text/html", "utf-8", "");
 		web.getSettings().setLoadWithOverviewMode(true);
 		web.getSettings().setUseWideViewPort(true);
 		web.getSettings().setBuiltInZoomControls(true);
 		web.getSettings().setDefaultZoom(ZoomDensity.FAR);
-		web.setWebViewClient(new WebViewClient() {
-
-			   public void onPageFinished(WebView view, String url) {
-				   view.setBackgroundColor(0x00000000);
-			    }
-			});
-		
+		web.setWebChromeClient(new WebChromeClient() {
+			public void onProgressChanged(WebView view, int progress){
+				ProgressBar bar = (ProgressBar) getView().findViewById(R.id.webcamProgress);
+				bar.setProgress(progress);
+				
+				if(progress == 100)
+				{
+					view.setBackgroundColor(0x000000ff);
+					
+					bar.setVisibility(View.GONE);
+					view.setVisibility(View.VISIBLE);
+				}
+				
+			}
+			
+			public void onPageFinished(WebView view, String url) {
+				
+				
+			}
+		});
 	}
 
 	public void updateWebcamButton(View v){
@@ -98,5 +127,10 @@ public class WebcamFragment extends Fragment{
 		String selected_cam = (String) webspin.getSelectedItem();
 		updateWebcam(selected_cam);
 	}
-
+	
+	public void cancelLoading()
+	{
+		WebView web = (WebView) getView().findViewById(R.id.webcamWebView);
+		web.stopLoading();
+	}
 }

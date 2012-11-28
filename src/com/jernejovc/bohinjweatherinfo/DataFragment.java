@@ -24,6 +24,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -74,23 +76,10 @@ public class DataFragment extends Fragment{
 				}
 			});
 
-			TextView cancelText = (TextView) view.findViewById(R.id.dataCancelText);
-			if(locale.equals("sl"))
-				cancelText.setText("<b>Nalagam...</b> <i>(pritisnite za preklic)</i>");
-			else
-				cancelText.setText("<b>Loading...</b> <i>(tap to cancel)</i>");
-			
-			cancelText.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					updateDataTask.cancel(true);
-				}
-			});
 		}
 
-		Button refreshButton = (Button) view.findViewById(R.id.dataRefreshButton);
-		refreshButton.setOnClickListener(new View.OnClickListener() {
+		ImageView refresh = (ImageView) view.findViewById(R.id.dataRefresh);
+		refresh.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -120,10 +109,12 @@ public class DataFragment extends Fragment{
 	public void updateData(View v){
 		DataEngine engine = new DataEngine(); 
 		Spinner dataspin = (Spinner) getView().findViewById(R.id.dataSpinner); 
-		LinearLayout toplay = (LinearLayout) getView().findViewById(R.id.dataselectorlayout);
-		LinearLayout progresslay = (LinearLayout) getView().findViewById(R.id.dataprogresslayout);
-		progresslay.setVisibility(View.VISIBLE);
-		toplay.setVisibility(View.GONE);
+		ImageView refresh = (ImageView) getView().findViewById(R.id.dataRefresh);
+		ProgressBar bar = (ProgressBar) getView().findViewById(R.id.dataprogress);
+		
+		refresh.setVisibility(View.GONE);
+		bar.setVisibility(View.VISIBLE);
+		
 		String selected = (String) dataspin.getSelectedItem();
 		DataEngines sel = DataEngines.JEZERO;
 		if (selected.equalsIgnoreCase("češnjica"))
@@ -153,10 +144,10 @@ public class DataFragment extends Fragment{
 
 		protected void onPostExecute(UpdateDataTaskReturnHelper result) {
 			ListView view = (ListView) getView().findViewById(R.id.dataList);
-			LinearLayout toplay = (LinearLayout) getView().findViewById(R.id.dataselectorlayout);
-			LinearLayout progresslay = (LinearLayout) getView().findViewById(R.id.dataprogresslayout);
-			progresslay.setVisibility(View.GONE);
-			toplay.setVisibility(View.VISIBLE);
+			ImageView refresh = (ImageView) getView().findViewById(R.id.dataRefresh);
+			ProgressBar bar = (ProgressBar) getView().findViewById(R.id.dataprogress);
+			refresh.setVisibility(View.VISIBLE);
+			bar.setVisibility(View.GONE);
 			List<HashMap<String, String>> data = result.result;
 			Activity activity = result.activity;
 			List<Map<String, String>> listdata = new ArrayList<Map<String, String>>();
@@ -188,10 +179,10 @@ public class DataFragment extends Fragment{
 		}
 		protected void onCancelled()
 		{
-			LinearLayout toplay = (LinearLayout) getView().findViewById(R.id.dataselectorlayout);
-			LinearLayout progresslay = (LinearLayout) getView().findViewById(R.id.dataprogresslayout);
-			progresslay.setVisibility(View.GONE);
-			toplay.setVisibility(View.VISIBLE);
+			ImageView refresh = (ImageView) getView().findViewById(R.id.dataRefresh);
+			ProgressBar bar = (ProgressBar) getView().findViewById(R.id.dataprogress);
+			refresh.setVisibility(View.VISIBLE);
+			bar.setVisibility(View.GONE);
 
 			List<Map<String, String>> listdata = new ArrayList<Map<String, String>>();
 			ListView view = (ListView) getView().findViewById(R.id.dataList);
