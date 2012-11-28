@@ -2,12 +2,15 @@ package com.jernejovc.bohinjweatherinfo;
 
 import com.jernejovc.bohinjweatherinfo.webcamengine.WebcamEngine;
 
+import android.annotation.TargetApi;
 import android.graphics.drawable.PaintDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebSettings.ZoomDensity;
@@ -67,6 +70,10 @@ public class WebcamFragment extends Fragment{
 				updateWebcamButton(v);
 			}
 		});
+
+		WebView webview = (WebView) view.findViewById(R.id.webcamWebView);
+		webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		webview.setBackgroundColor(0x000000ff);
 		return view;
 	}
 
@@ -90,11 +97,8 @@ public class WebcamFragment extends Fragment{
 				break;
 			}
 		}
-		web.setVisibility(View.GONE);
 		bar.setVisibility(View.VISIBLE);
-		web.clearCache(true);
-		web.setBackgroundColor(0x000000ff);
-		String html = String.format("<html><body><img src=\"%s\" style=\"width:100%c\"/></body></html>", url, '%');
+		String html = String.format("<html><body style=\"background:rgba(0,0,0,255);\"><img src=\"%s\" style=\"width:100%c\"/></body></html>", url, '%');
 		web.loadDataWithBaseURL("fake://blah",html, "text/html", "utf-8", "");
 		web.getSettings().setLoadWithOverviewMode(true);
 		web.getSettings().setUseWideViewPort(true);
@@ -107,16 +111,8 @@ public class WebcamFragment extends Fragment{
 				
 				if(progress == 100)
 				{
-					view.setBackgroundColor(0x000000ff);
-					
 					bar.setVisibility(View.GONE);
-					view.setVisibility(View.VISIBLE);
 				}
-				
-			}
-			
-			public void onPageFinished(WebView view, String url) {
-				
 				
 			}
 		});
