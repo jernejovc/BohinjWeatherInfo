@@ -8,9 +8,9 @@
 
     <LinearLayout
         android:id="@+id/forecastRowDayLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.6"
+        android:layout_weight="0.5"
         android:orientation="vertical"
         tools:ignore="UseCompoundDrawables" >
 
@@ -18,7 +18,7 @@
             android:id="@+id/forecastRowDayText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge"
             tools:ignore="HardcodedText" >
@@ -29,7 +29,7 @@
             android:id="@+id/forecastRowIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="center"
             android:contentDescription="Weather Icon"
             android:scaleType="center"
             android:src="@drawable/weather_not_available"
@@ -39,10 +39,10 @@
 
     <LinearLayout
         android:id="@+id/dataLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="0.4"
+        android:layout_weight="0.5"
         android:orientation="vertical"
         tools:ignore="ContentDescription" >
 
