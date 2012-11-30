@@ -13,4 +13,8 @@
     <string name="camsTabName">Cams</string>
     <string name="forecastTabName">Forecast</string>
     <string name="forecastNotAvailableText">Forecast not available</string>
+    <string name="dataNotLoadedText">Data not loaded</string>
+    <string name="dataNotLoadedHelperText">Tap the refresh button on the top right corner to load data.</string>
+    <string name="webcamNotLoadedText">Webcam image not loaded</string>
+    <string name="forecastNotLoadedText">Forecast not loaded</string>
 </resources>

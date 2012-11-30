@@ -3,7 +3,10 @@ package com.jernejovc.bohinjweatherinfo;
 import com.jernejovc.bohinjweatherinfo.webcamengine.WebcamEngine;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.drawable.PaintDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,12 +25,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class WebcamFragment extends Fragment{
 	WebcamEngine webcamEngine;
-
+	boolean firstRun;
+	boolean helperTextsShown;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		firstRun = true;
+		helperTextsShown = true;
+		
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.webcam_layout, container, false);
 		ProgressBar bar = (ProgressBar) view.findViewById(R.id.webcamProgress);
@@ -40,20 +48,14 @@ public class WebcamFragment extends Fragment{
 		for(String[] s : webcamEngine.getWebcamUrls())
 			webcam_names[i++] = s[0];
 
-		ArrayAdapter webcamadapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, webcam_names);
+		ArrayAdapter webcamadapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, webcam_names);
 
 		webspin.setAdapter(webcamadapter);
-		//		  if(webspin.getSelectedItemPosition() > -1)
-		//		  {
-		//		  	updateWebcam((String)webspin.getSelectedItem());
-		//		  }
-
 		webspin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View v,int pos, long id) {
 				updateWebcamButton(v);
-
 			}
 
 			@Override
@@ -64,7 +66,6 @@ public class WebcamFragment extends Fragment{
 		});
 		
 		refresh.setOnClickListener(new View.OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
 				updateWebcamButton(v);
@@ -72,7 +73,11 @@ public class WebcamFragment extends Fragment{
 		});
 
 		WebView webview = (WebView) view.findViewById(R.id.webcamWebView);
-		webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		{
+			//Disable hardware acceleration on Android > 3
+			webview.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		}
 		webview.setBackgroundColor(0x000000ff);
 		return view;
 	}
@@ -81,7 +86,7 @@ public class WebcamFragment extends Fragment{
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
-		updateWebcamButton(null);
+		//updateWebcamButton(null);
 	}
 
 	public void updateWebcam(String cam_name){
@@ -111,7 +116,7 @@ public class WebcamFragment extends Fragment{
 				
 				if(progress == 100)
 				{
-					bar.setVisibility(View.GONE);
+					bar.setVisibility(View.INVISIBLE);
 				}
 				
 			}
@@ -119,6 +124,27 @@ public class WebcamFragment extends Fragment{
 	}
 
 	public void updateWebcamButton(View v){
+		if(firstRun)
+		{
+			// Don't let event triggered while loading adapter cause refreshing  
+			// the webview thus maybe loading unneccesary data over mobile network.
+			firstRun = !firstRun;
+			
+			ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		    if (netInfo != null && netInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+		    	return;
+			}
+		}
+		if(helperTextsShown)
+		{
+			TextView dataNotLoadedView = (TextView) getView().findViewById(R.id.webcamNotLoadedText);
+		    TextView dataNotLoadedHelperView = (TextView) getView().findViewById(R.id.webcamNotLoadedHelperText);
+		    dataNotLoadedView.setVisibility(View.GONE);
+		    dataNotLoadedHelperView.setVisibility(View.GONE);
+		    helperTextsShown = false;
+		}
+	    
 		Spinner webspin = (Spinner) getView().findViewById(R.id.webcamSpinner);
 		String selected_cam = (String) webspin.getSelectedItem();
 		updateWebcam(selected_cam);

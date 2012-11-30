@@ -36,8 +36,26 @@
             android:layout_weight="0.1"
             android:src="@android:drawable/stat_notify_sync_noanim"
             android:visibility="visible" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/forecastNotLoadedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/dataNotLoadedText"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/forecastNotLoadedHelperText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:paddingLeft="10dp"
+        android:text="@string/dataNotLoadedHelperText"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ListView
         android:id="@+id/forecastList"
@@ -69,7 +87,6 @@
             android:contentDescription="Forecast provider logo"
             android:src="@drawable/logo_vreme_net"
             tools:ignore="HardcodedText" />
-
     </LinearLayout>
 
 </LinearLayout>

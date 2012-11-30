@@ -3,9 +3,9 @@
     android:id="@+id/tabWebcam"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="5dp" >
-    
+    android:layout_marginTop="5dp"
+    android:orientation="vertical" >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp" >
@@ -24,8 +24,24 @@
             android:minHeight="48dip"
             android:minWidth="48dip"
             android:src="@android:drawable/stat_notify_sync_noanim" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/webcamNotLoadedText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingTop="10dp"
+        android:text="@string/webcamNotLoadedText"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/webcamNotLoadedHelperText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="@string/dataNotLoadedHelperText"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ProgressBar
         android:id="@+id/webcamProgress"
@@ -34,18 +50,17 @@
         android:layout_height="wrap_content"
         android:max="100"
         android:progress="0"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <WebView
         android:id="@+id/webcamWebView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:clickable="false"
         android:fitsSystemWindows="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:longClickable="false"
         android:visibility="visible" />
- 
+
 </LinearLayout>

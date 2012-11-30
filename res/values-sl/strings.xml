@@ -13,5 +13,8 @@
     <string name="camsTabName">Kamere</string>
     <string name="forecastTabName">Napoved</string>
     <string name="forecastNotAvailableText">Vremenska napoved ni na voljo</string>
-
+	<string name="dataNotLoadedText">Podatki niso naloženi</string>
+    <string name="dataNotLoadedHelperText">Da pridobite podatke pritisnite gumb za osveževanje podatkov zgoraj desno.</string>
+    <string name="webcamNotLoadedText">Slika iz kamere ni naložena</string>
+    <string name="forecastNotLoadedText">Vremenska napoved ni naložena</string>
 </resources>

@@ -6,12 +6,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import com.jernejovc.bohinjweatherinfo.webcamengine.WebcamEngine;
-
 import com.jernejovc.bohinjweatherinfo.dataengine.DataEngine;
 import com.jernejovc.bohinjweatherinfo.dataengine.DataEngines;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,28 +35,28 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class DataFragment extends Fragment{
-	WebcamEngine webcamEngine;
 	UpdateDataTask updateDataTask;
-	boolean creating;
+	boolean firstRun;
+	boolean helperTextsShown;
 	String locale;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
-		creating = true;
+		firstRun = true;
+		helperTextsShown = true;
 		locale = Locale.getDefault().getLanguage();
 		View view = inflater.inflate(R.layout.data_layout, container, false);
 
 		String [] data_names = {"Jezero", "Češnjica", "Bohinjska Bistrica", "Vogel"};
 		Spinner dataSpin = (Spinner) view.findViewById(R.id.dataSpinner);
-		ArrayAdapter dataadapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, data_names);
+		ArrayAdapter dataadapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, data_names);
 		dataSpin.setAdapter(dataadapter);
 		dataSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View v, int pos, long id) {
-				if(!creating)
-					updateData(null);
+				updateData(null);
 			}
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
@@ -66,7 +67,6 @@ public class DataFragment extends Fragment{
 
 		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
 		{
-
 			ProgressBar bar = (ProgressBar) view.findViewById(R.id.dataprogress);
 			bar.setOnClickListener(new View.OnClickListener(){
 
@@ -86,35 +86,41 @@ public class DataFragment extends Fragment{
 				updateData(v);				
 			}
 		});
-
-		view.setOnKeyListener( new OnKeyListener()
-		{
-			@Override
-			public boolean onKey( View v, int keyCode, KeyEvent event )
-			{
-				if( keyCode == KeyEvent.KEYCODE_BACK )
-				{
-					while(getFragmentManager().getBackStackEntryCount()>0){
-						getFragmentManager().popBackStack();
-					}
-				}
-				return false;
-			}
-		} );
-
-		creating = false;
+		
 		return view;
 	}
 
 	public void updateData(View v){
+		if(firstRun)
+		{
+			// Don't let event triggered while loading adapter cause refreshing  
+			// weather data thus maybe loading unneccesary data.
+			firstRun = !firstRun;
+			
+			ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		    if (netInfo != null && netInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+		    	return;
+			}
+		}
+		if(helperTextsShown)
+		{
+			//Remove helper texts, as user is manually refreshing data or we are on WiFi
+			TextView dataNotLoadedView = (TextView) getView().findViewById(R.id.dataNotLoadedText);
+		    TextView dataNotLoadedHelperView = (TextView) getView().findViewById(R.id.dataNotLoadedHelperText);
+		    dataNotLoadedView.setVisibility(View.GONE);
+		    dataNotLoadedHelperView.setVisibility(View.GONE);
+		    helperTextsShown = false;
+		}
+		
 		DataEngine engine = new DataEngine(); 
 		Spinner dataspin = (Spinner) getView().findViewById(R.id.dataSpinner); 
 		ImageView refresh = (ImageView) getView().findViewById(R.id.dataRefresh);
 		ProgressBar bar = (ProgressBar) getView().findViewById(R.id.dataprogress);
-		
+
 		refresh.setVisibility(View.GONE);
 		bar.setVisibility(View.VISIBLE);
-		
+
 		String selected = (String) dataspin.getSelectedItem();
 		DataEngines sel = DataEngines.JEZERO;
 		if (selected.equalsIgnoreCase("češnjica"))
@@ -129,27 +135,22 @@ public class DataFragment extends Fragment{
 		updateDataTask.execute(helper);
 	}
 
-	private class UpdateDataTask extends AsyncTask<UpdateDataTaskHelper, Integer, UpdateDataTaskReturnHelper> {
-		Activity activity;
-		protected UpdateDataTaskReturnHelper doInBackground(UpdateDataTaskHelper... params) {
+	private class UpdateDataTask extends AsyncTask<UpdateDataTaskHelper, Integer, List<HashMap<String,String>>> {
+		protected List<HashMap<String,String>> doInBackground(UpdateDataTaskHelper... params) {
 			DataEngine engine = ((UpdateDataTaskHelper)params[0]).engine;
 			DataEngines selected = ((UpdateDataTaskHelper)params[0]).selected;
-			Activity activity = ((UpdateDataTaskHelper)params[0]).activity;
-			this.activity = activity;
 			List<HashMap<String,String>> result = engine.getData(selected);
-			UpdateDataTaskReturnHelper out = new UpdateDataTaskReturnHelper(result, activity);
-			return out;
+			return result;
 		}
 
 
-		protected void onPostExecute(UpdateDataTaskReturnHelper result) {
+		protected void onPostExecute(List<HashMap<String,String>> result) {
 			ListView view = (ListView) getView().findViewById(R.id.dataList);
 			ImageView refresh = (ImageView) getView().findViewById(R.id.dataRefresh);
 			ProgressBar bar = (ProgressBar) getView().findViewById(R.id.dataprogress);
 			refresh.setVisibility(View.VISIBLE);
 			bar.setVisibility(View.GONE);
-			List<HashMap<String, String>> data = result.result;
-			Activity activity = result.activity;
+			List<HashMap<String, String>> data = result;
 			List<Map<String, String>> listdata = new ArrayList<Map<String, String>>();
 
 			if(data == null)
@@ -169,7 +170,7 @@ public class DataFragment extends Fragment{
 					listdata.add(map);
 				}
 			}
-			SimpleAdapter adapter = new SimpleAdapter(activity, listdata,
+			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listdata,
 					android.R.layout.simple_list_item_2,
 					new String[] {"data", "label"},
 					new int[] {android.R.id.text1,
@@ -205,24 +206,11 @@ public class DataFragment extends Fragment{
 	{
 		public DataEngine engine;
 		public DataEngines selected;
-		public Activity activity;
+		
 		public UpdateDataTaskHelper(DataEngine engine, DataEngines selected, Activity activity)
 		{
 			this.engine = engine;
 			this.selected = selected;
-			this.activity = activity;
-		}
-	}
-
-	private class UpdateDataTaskReturnHelper
-	{
-		public List<HashMap<String,String>>  result;
-		public Activity activity;
-
-		public UpdateDataTaskReturnHelper(List<HashMap<String,String>> result , Activity activity)
-		{
-			this.result = result;
-			this.activity = activity;
 		}
 	}
 }
