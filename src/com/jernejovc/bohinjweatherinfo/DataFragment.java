@@ -65,19 +65,6 @@ public class DataFragment extends Fragment{
 			}
 		});
 
-		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB)
-		{
-			ProgressBar bar = (ProgressBar) view.findViewById(R.id.dataprogress);
-			bar.setOnClickListener(new View.OnClickListener(){
-
-				@Override
-				public void onClick(View v) {
-					updateDataTask.cancel(true);				
-				}
-			});
-
-		}
-
 		ImageView refresh = (ImageView) view.findViewById(R.id.dataRefresh);
 		refresh.setOnClickListener(new View.OnClickListener() {
 
@@ -175,29 +162,6 @@ public class DataFragment extends Fragment{
 					new String[] {"data", "label"},
 					new int[] {android.R.id.text1,
 					android.R.id.text2});
-			view.setAdapter(adapter);
-			view.setDividerHeight(0);
-		}
-		protected void onCancelled()
-		{
-			ImageView refresh = (ImageView) getView().findViewById(R.id.dataRefresh);
-			ProgressBar bar = (ProgressBar) getView().findViewById(R.id.dataprogress);
-			refresh.setVisibility(View.VISIBLE);
-			bar.setVisibility(View.GONE);
-
-			List<Map<String, String>> listdata = new ArrayList<Map<String, String>>();
-			ListView view = (ListView) getView().findViewById(R.id.dataList);
-
-			Map<String,String> map = new HashMap<String,String>();
-			map.put("data", "Ni podatkov");
-			map.put("label", "Preklicali ste nalaganje");
-			listdata.add(map);
-
-			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listdata,
-					android.R.layout.simple_list_item_2,
-					new String[] {"data", "label"},
-					new int[] {android.R.id.text1,
-				android.R.id.text2});
 			view.setAdapter(adapter);
 			view.setDividerHeight(0);
 		}
