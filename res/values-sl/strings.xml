@@ -17,4 +17,20 @@
     <string name="dataNotLoadedHelperText">Da pridobite podatke pritisnite gumb za osveževanje podatkov zgoraj desno.</string>
     <string name="webcamNotLoadedText">Slika iz kamere ni naložena</string>
     <string name="forecastNotLoadedText">Vremenska napoved ni naložena</string>
+    <string name="network_error">Napaka omrežja</string>
+    <string name="network_error_description">Spletna stran se ne odziva. Mogoče nimate povezave do interneta ali pa ima spletna stran tehnične težave.</string>
+    <string name="data_error">Napaka podatkov</string>
+    <string name="data_error_description">Prišlo je do napake podatkov. Če se težava ponavlja nas prosim kontaktirajte preko https://www.facebook.com/BohinjWeatherInfo</string>
+    <string name="data_error_additional_developer_data">Dodatni podatki za razvijalce</string>
+    <string name="forecast_day_dopoldan">Zjutraj</string>
+    <string name="forecast_day_popoldan">Popoldan</string>
+    <string name="forecast_day_zvecer">Zvečer</string>
+    <string name="forecast_day_noc">Ponoči</string>
+    <string name="forecast_day_ponedeljek">Ponedeljek</string>
+    <string name="forecast_day_torek">Torek</string>
+    <string name="forecast_day_sreda">Sreda</string>
+    <string name="forecast_day_cetrtek">Četrtek</string>
+    <string name="forecast_day_petek">Petek</string>
+    <string name="forecast_day_sobota">Sobota</string>
+    <string name="forecast_day_nedelja">Nedelja</string>
 </resources>

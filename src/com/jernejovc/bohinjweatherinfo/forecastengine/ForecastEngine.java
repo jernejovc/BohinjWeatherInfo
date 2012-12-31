@@ -6,11 +6,14 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import android.app.Activity;
+
+import com.jernejovc.bohinjweatherinfo.R;
 import com.jernejovc.bohinjweatherinfo.dataengine.DataEngineDownloader;
 
 public class ForecastEngine {
 
-	public ForecastReturnHelper getData()
+	public ForecastReturnHelper getData(Activity activity) throws Exception
 	{
 		ArrayList<ForecastDay> out = new ArrayList<ForecastDay>();
 		DataEngineDownloader down = new DataEngineDownloader();
@@ -20,16 +23,16 @@ public class ForecastEngine {
 		String [] timerow = doc.getElementsByClass("qData").get(0).getElementsByTag("td").get(0).text().split(" ");
 		String time = timerow[timerow.length-1];
 		Element forecastTable = doc.getElementsByClass("tData").get(3);
-		for(ForecastDay day : parsetDataTable(forecastTable,true))
+		for(ForecastDay day : parsetDataTable(activity,forecastTable,true))
 			out.add(day);
 		forecastTable = doc.getElementsByClass("tData").get(4);
-		for(ForecastDay day : parsetDataTable(forecastTable, false))
+		for(ForecastDay day : parsetDataTable(activity,forecastTable, false))
 			out.add(day);
 
 		return new ForecastReturnHelper(out, time);
 	}
 
-	ArrayList<ForecastDay> parsetDataTable(Element table, boolean isTodaysForecast)
+	ArrayList<ForecastDay> parsetDataTable(Activity activity, Element table, boolean isTodaysForecast)
 	{
 		ArrayList<ForecastDay> out = new ArrayList<ForecastDay>();
 
@@ -46,11 +49,7 @@ public class ForecastEngine {
 					continue;
 				if(row.hasClass("tFirst") || (row.hasClass("tSec") && !row.hasClass("gray")))
 				{
-					day = row.getElementsByClass("bName").get(0).text();
-					String first = day.substring(0, 1);
-					first = first.toUpperCase();
-					day = first + day.substring(1,day.length());
-					
+					day = row.getElementsByClass("bName").get(0).text();					
 					String lowhigh = row.getElementsByClass("tDeg").get(0).text();
 					lowhigh = lowhigh.replace("°", " ");
 					low = Integer.valueOf(lowhigh.split(" ")[0].trim());
@@ -76,9 +75,6 @@ public class ForecastEngine {
 				if(row.hasClass("tFirst"))
 				{
 					day = row.getElementsByClass("bName").get(0).text();
-					String first = day.substring(0, 1);
-					first = first.toUpperCase();
-					day = first + day.substring(1,day.length());
 					String lowhigh = row.getElementsByClass("tDeg").get(0).text();
 					lowhigh = lowhigh.replace("°C", "");
 					if(lowhigh.contains("/"))
@@ -117,6 +113,29 @@ public class ForecastEngine {
 					{
 						wind = "n/a";
 					}
+					
+					if(day.equalsIgnoreCase("dopoldan"))
+						day = activity.getResources().getString(R.string.forecast_day_dopoldan);
+					if(day.equalsIgnoreCase("popoldan"))
+						day = activity.getResources().getString(R.string.forecast_day_popoldan);
+					if(day.equalsIgnoreCase("zvečer"))
+						day = activity.getResources().getString(R.string.forecast_day_zvecer);
+					if(day.equalsIgnoreCase("ponoči"))
+						day = activity.getResources().getString(R.string.forecast_day_noc);
+					if(day.equalsIgnoreCase("ponedeljek"))
+						day = activity.getResources().getString(R.string.forecast_day_ponedeljek);
+					if(day.equalsIgnoreCase("torek"))
+						day = activity.getResources().getString(R.string.forecast_day_torek);
+					if(day.equalsIgnoreCase("sreda"))
+						day = activity.getResources().getString(R.string.forecast_day_sreda);
+					if(day.equalsIgnoreCase("četrtek"))
+						day = activity.getResources().getString(R.string.forecast_day_cetrtek);
+					if(day.equalsIgnoreCase("petek"))
+						day = activity.getResources().getString(R.string.forecast_day_petek);
+					if(day.equalsIgnoreCase("sobota"))
+						day = activity.getResources().getString(R.string.forecast_day_sobota);
+					if(day.equalsIgnoreCase("nedelja"))
+						day = activity.getResources().getString(R.string.forecast_day_nedelja);
 					forecastDay = new ForecastDay(day, low, high, condition, wind,daytime);
 					out.add(forecastDay);
 				}

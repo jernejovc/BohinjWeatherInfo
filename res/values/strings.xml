@@ -17,4 +17,21 @@
     <string name="dataNotLoadedHelperText">Tap the refresh button on the top right corner to load data.</string>
     <string name="webcamNotLoadedText">Webcam image not loaded</string>
     <string name="forecastNotLoadedText">Forecast not loaded</string>
+    <string name="network_error">Network Error</string>
+    
+    <string name="network_error_description">The website is not responding. This is either caused by not being connected to the Internet, or the site is just experiencing technical difficulties.</string>
+    <string name="data_error">Data error</string>
+    <string name="data_error_description">There seems to be an error with the data. If the problem persists please contact us at https://www.facebook.com/BohinjWeatherInfo</string>
+    <string name="data_error_additional_developer_data">Additional developer data</string>
+    <string name="forecast_day_dopoldan">Morning</string>
+    <string name="forecast_day_popoldan">Afternoon</string>
+    <string name="forecast_day_zvecer">Evening</string>
+    <string name="forecast_day_noc">Night</string>
+    <string name="forecast_day_ponedeljek">Monday</string>
+    <string name="forecast_day_torek">Tuesday</string>
+    <string name="forecast_day_sreda">Wednesday</string>
+    <string name="forecast_day_cetrtek">Thursday</string>
+    <string name="forecast_day_petek">Friday</string>
+    <string name="forecast_day_sobota">Saturday</string>
+    <string name="forecast_day_nedelja">Sunday</string>
 </resources>
