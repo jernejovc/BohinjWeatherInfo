@@ -1,10 +1,14 @@
 package com.jernejovc.bohinjweatherinfo;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import com.jernejovc.bohinjweatherinfo.dataengine.DataEngine;
 import com.jernejovc.bohinjweatherinfo.dataengine.DataEngines;
@@ -14,20 +18,14 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
@@ -48,7 +46,7 @@ public class DataFragment extends Fragment{
 		locale = Locale.getDefault().getLanguage();
 		View view = inflater.inflate(R.layout.data_layout, container, false);
 
-		String [] data_names = {"Jezero", "Češnjica", "Bohinjska Bistrica", "Vogel"};
+		String [] data_names = {"Bohinjska Bistrica", "Češnjica", "Jezero", "Vogel"};
 		Spinner dataSpin = (Spinner) view.findViewById(R.id.dataSpinner);
 		ArrayAdapter dataadapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, data_names);
 		dataSpin.setAdapter(dataadapter);
@@ -126,7 +124,23 @@ public class DataFragment extends Fragment{
 		protected List<HashMap<String,String>> doInBackground(UpdateDataTaskHelper... params) {
 			DataEngine engine = ((UpdateDataTaskHelper)params[0]).engine;
 			DataEngines selected = ((UpdateDataTaskHelper)params[0]).selected;
-			List<HashMap<String,String>> result = engine.getData(selected);
+			List<HashMap<String, String>> result = new ArrayList<HashMap<String,String>>();
+			try {
+				result = engine.getData(selected);
+			}
+			catch (UnknownHostException e)
+			{
+				result.add(createRow(getResources().getString(R.string.network_error), getResources().getString(R.string.network_error_description)));
+			}
+			catch (ConnectException e)
+			{
+				result.add(createRow(getResources().getString(R.string.network_error), getResources().getString(R.string.network_error_description)));
+			}
+			catch (Exception e) {
+				// TODO Auto-generated catch block
+				result.add(createRow(getResources().getString(R.string.data_error), getResources().getString(R.string.data_error_description)));
+				result.add(createRow(getResources().getString(R.string.data_error_additional_developer_data), stackTraceToString(e)));
+			}
 			return result;
 		}
 
@@ -138,26 +152,26 @@ public class DataFragment extends Fragment{
 			refresh.setVisibility(View.VISIBLE);
 			bar.setVisibility(View.GONE);
 			List<HashMap<String, String>> data = result;
-			List<Map<String, String>> listdata = new ArrayList<Map<String, String>>();
-
-			if(data == null)
-			{
-				Map<String,String> map = new HashMap<String,String>();
-				map.put("data", "Ni podatkov");
-				map.put("label", "Spletna stran se ne odziva / napaka podatkov");
-				listdata.add(map);
-			}
-			else
-			{
-				for(HashMap<String, String> k : data)
-				{
-					Map<String, String> map = new HashMap<String, String>(2);
-					map.put("data", k.get("data"));
-					map.put("label", k.get("label"));
-					listdata.add(map);
-				}
-			}
-			SimpleAdapter adapter = new SimpleAdapter(getActivity(), listdata,
+//			List<Map<String, String>> listdata = new ArrayList<Map<String, String>>();
+//
+//			if(data == null)
+//			{
+//				Map<String,String> map = new HashMap<String,String>();
+//				map.put("data", "Ni podatkov");
+//				map.put("label", "Spletna stran se ne odziva / napaka podatkov");
+//				listdata.add(map);
+//			}
+//			else
+//			{
+//				for(HashMap<String, String> k : data)
+//				{
+//					Map<String, String> map = new HashMap<String, String>(2);
+//					map.put("data", k.get("data"));
+//					map.put("label", k.get("label"));
+//					listdata.add(map);
+//				}
+//			}
+			SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
 					android.R.layout.simple_list_item_2,
 					new String[] {"data", "label"},
 					new int[] {android.R.id.text1,
@@ -165,6 +179,31 @@ public class DataFragment extends Fragment{
 			view.setAdapter(adapter);
 			view.setDividerHeight(0);
 		}
+		
+		private HashMap<String,String> createRow(String data, String label)
+		{
+			HashMap<String, String> map = new HashMap<String, String>(2);
+			map.put("data", data);
+			map.put("label", label);
+			return map;
+		}
+		public String stackTraceToString(Throwable e) {
+			String retValue = null;
+			StringWriter sw = null;
+			PrintWriter pw = null;
+			try {
+			 sw = new StringWriter();
+			 pw = new PrintWriter(sw);
+			 e.printStackTrace(pw);
+			 retValue = sw.toString();
+			} finally {
+			 try {
+			   if(pw != null)  pw.close();
+			   if(sw != null)  sw.close();
+			 } catch (IOException ignore) {}
+			}
+			return retValue;
+			}
 	}
 	private class UpdateDataTaskHelper
 	{

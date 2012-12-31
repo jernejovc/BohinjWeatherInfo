@@ -7,7 +7,7 @@ import java.util.List;
 public class DataEngine {
 	private DataEngineInterface selected;
 	
-	public List<HashMap<String,String>> getData(DataEngines engine)
+	public List<HashMap<String,String>> getData(DataEngines engine) throws Exception
 	{
 		if(engine == DataEngines.JEZERO)
 			selected = new JezeroDataEngine();
@@ -20,8 +20,8 @@ public class DataEngine {
 		
 		List<HashMap<String,String>> out = new ArrayList<HashMap<String, String>>();
 		String [] labels = selected.getLabels();
-		try
-		{
+//		try
+//		{
 			String [] data = selected.getData();
 			for(int i = 0; i<labels.length; i++)
 			{	
@@ -30,12 +30,12 @@ public class DataEngine {
 				map.put("data", data[i]);
 				out.add(map);
 			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//			return null;
+//		}
 		
 		return out;
 	}

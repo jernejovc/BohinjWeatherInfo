@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 public class BistricaDataEngine implements DataEngineInterface{
 
 	@Override
-	public String[] getData() {
+	public String[] getData() throws Exception {
 		DataEngineDownloader down = new DataEngineDownloader();
 		String page = down.getPage("http://bohinjska-bistrica.zevs.si/");
 		

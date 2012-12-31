@@ -14,7 +14,7 @@ import org.jsoup.nodes.Element;
 public class VogelEngine implements DataEngineInterface {
 	
 	
-	public String[] getData()
+	public String[] getData() throws Exception
 	{
 		DataEngineDownloader down = new DataEngineDownloader();
 		String [] out = new String[4];
@@ -70,7 +70,7 @@ public class VogelEngine implements DataEngineInterface {
 		
 	}
 	
-	public ArrayList<HashMap<String,String>> getWorking()
+	public ArrayList<HashMap<String,String>> getWorking() throws Exception
 	{
 		ArrayList<HashMap<String,String>> out = new ArrayList<HashMap<String,String>>();
 		DataEngineDownloader down = new DataEngineDownloader();

@@ -7,10 +7,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DataEngineDownloader {
-	public String getPage(String url)
+	public String getPage(String url) throws Exception
 	{
-		try 
-		{
+//		try 
+//		{
 		    URL Url = new URL(url);
 		    // Read all the text returned by the server
 		    BufferedReader in = new BufferedReader(new InputStreamReader(Url.openStream()));
@@ -22,9 +22,9 @@ public class DataEngineDownloader {
 		    }
 		    in.close();
 		    return stringBuilder.toString();
-		} catch (MalformedURLException e) {
-		} catch (IOException e) {
-		}
-		return null;
+//		} catch (MalformedURLException e) {
+//		} catch (IOException e) {
+//		}
+//		return null;
     }
 }

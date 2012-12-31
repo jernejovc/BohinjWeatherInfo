@@ -7,7 +7,7 @@ import com.jernejovc.bohinjweatherinfo.dataengine.DataEngineDownloader;
 
 
 public class JezeroDataEngine implements DataEngineInterface {	
-	public String[] getData()
+	public String[] getData() throws Exception
 	{
 		DataEngineDownloader down = new DataEngineDownloader();
 		//weatherData = urllib.urlopen("http://www.bohinj.si/cam/weather.js").read().replace('\t','').replace('\r','').replace("var",'').replace(';','').split("\n")

@@ -15,7 +15,7 @@ import com.jernejovc.bohinjweatherinfo.dataengine.DataEngineInterface;
 public class CesnjicaDataEngine implements DataEngineInterface {
 
 	@Override
-	public String[] getData() {
+	public String[] getData() throws Exception {
 		DataEngineDownloader down = new DataEngineDownloader();
 		String page = down.getPage("http://www2.arnes.si/~smisma1/bohinj.html");
 		Document doc = Jsoup.parse(page);
