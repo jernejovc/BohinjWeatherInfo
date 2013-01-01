@@ -22,7 +22,7 @@
     <string name="data_error">Napaka podatkov</string>
     <string name="data_error_description">Prišlo je do napake podatkov. Če se težava ponavlja nas prosim kontaktirajte preko https://www.facebook.com/BohinjWeatherInfo</string>
     <string name="data_error_additional_developer_data">Dodatni podatki za razvijalce</string>
-    <string name="forecast_day_dopoldan">Zjutraj</string>
+    <string name="forecast_day_dopoldan">Dopoldan</string>
     <string name="forecast_day_popoldan">Popoldan</string>
     <string name="forecast_day_zvecer">Zvečer</string>
     <string name="forecast_day_noc">Ponoči</string>
