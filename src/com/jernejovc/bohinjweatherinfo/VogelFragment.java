@@ -50,8 +50,13 @@ public class VogelFragment extends Fragment{
 		protected ArrayList<HashMap<String, String>> doInBackground(
 				Void... params) {
 			VogelEngine engine = new VogelEngine();
-			ArrayList<HashMap<String,String>> result;
-			result = engine.getWorking();
+			ArrayList<HashMap<String,String>> result = null;
+			try {
+				result = engine.getWorking();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return result;
 		}
 
