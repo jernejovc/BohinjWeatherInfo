@@ -2,9 +2,7 @@ package com.jernejovc.bohinjweatherinfo;
 
 import com.jernejovc.bohinjweatherinfo.webcamengine.WebcamEngine;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.drawable.PaintDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -13,16 +11,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebSettings.ZoomDensity;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,7 +29,6 @@ public class WebcamFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		firstRun = true;
 		helperTextsShown = true;
-		
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.webcam_layout, container, false);
 		ProgressBar bar = (ProgressBar) view.findViewById(R.id.webcamProgress);
@@ -104,6 +97,7 @@ public class WebcamFragment extends Fragment{
 		}
 		bar.setVisibility(View.VISIBLE);
 		String html = String.format("<html><body style=\"background:rgba(0,0,0,255);\"><img src=\"%s\" style=\"width:100%c\"/></body></html>", url, '%');
+		web.clearCache(true);
 		web.loadDataWithBaseURL("fake://blah",html, "text/html", "utf-8", "");
 		web.getSettings().setLoadWithOverviewMode(true);
 		web.getSettings().setUseWideViewPort(true);
