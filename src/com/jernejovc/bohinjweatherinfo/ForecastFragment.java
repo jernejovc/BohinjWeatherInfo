@@ -96,7 +96,7 @@ public class ForecastFragment extends Fragment{
 			
 			try
 			{
-				data = engine.getData();
+				data = engine.getData(getActivity());
 			}
 			catch(Exception e)
 			{

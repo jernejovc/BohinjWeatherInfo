@@ -49,7 +49,16 @@ public class ForecastEngine {
 					continue;
 				if(row.hasClass("tFirst") || (row.hasClass("tSec") && !row.hasClass("gray")))
 				{
-					day = row.getElementsByClass("bName").get(0).text();					
+					day = row.getElementsByClass("bName").get(0).text();	
+					if(day.equalsIgnoreCase("dopoldan"))
+						day = activity.getResources().getString(R.string.forecast_day_dopoldan);
+					if(day.equalsIgnoreCase("popoldan"))
+						day = activity.getResources().getString(R.string.forecast_day_popoldan);
+					if(day.equalsIgnoreCase("zvečer"))
+						day = activity.getResources().getString(R.string.forecast_day_zvecer);
+					if(day.equalsIgnoreCase("ponoči"))
+						day = activity.getResources().getString(R.string.forecast_day_noc);
+					
 					String lowhigh = row.getElementsByClass("tDeg").get(0).text();
 					lowhigh = lowhigh.replace("°", " ");
 					low = Integer.valueOf(lowhigh.split(" ")[0].trim());
@@ -75,6 +84,21 @@ public class ForecastEngine {
 				if(row.hasClass("tFirst"))
 				{
 					day = row.getElementsByClass("bName").get(0).text();
+					if(day.equalsIgnoreCase("ponedeljek"))
+						day = activity.getResources().getString(R.string.forecast_day_ponedeljek);
+					if(day.equalsIgnoreCase("torek"))
+						day = activity.getResources().getString(R.string.forecast_day_torek);
+					if(day.equalsIgnoreCase("sreda"))
+						day = activity.getResources().getString(R.string.forecast_day_sreda);
+					if(day.equalsIgnoreCase("četrtek"))
+						day = activity.getResources().getString(R.string.forecast_day_cetrtek);
+					if(day.equalsIgnoreCase("petek"))
+						day = activity.getResources().getString(R.string.forecast_day_petek);
+					if(day.equalsIgnoreCase("sobota"))
+						day = activity.getResources().getString(R.string.forecast_day_sobota);
+					if(day.equalsIgnoreCase("nedelja"))
+						day = activity.getResources().getString(R.string.forecast_day_nedelja);
+					
 					String lowhigh = row.getElementsByClass("tDeg").get(0).text();
 					lowhigh = lowhigh.replace("°C", "");
 					if(lowhigh.contains("/"))
@@ -113,29 +137,6 @@ public class ForecastEngine {
 					{
 						wind = "n/a";
 					}
-					
-					if(day.equalsIgnoreCase("dopoldan"))
-						day = activity.getResources().getString(R.string.forecast_day_dopoldan);
-					if(day.equalsIgnoreCase("popoldan"))
-						day = activity.getResources().getString(R.string.forecast_day_popoldan);
-					if(day.equalsIgnoreCase("zvečer"))
-						day = activity.getResources().getString(R.string.forecast_day_zvecer);
-					if(day.equalsIgnoreCase("ponoči"))
-						day = activity.getResources().getString(R.string.forecast_day_noc);
-					if(day.equalsIgnoreCase("ponedeljek"))
-						day = activity.getResources().getString(R.string.forecast_day_ponedeljek);
-					if(day.equalsIgnoreCase("torek"))
-						day = activity.getResources().getString(R.string.forecast_day_torek);
-					if(day.equalsIgnoreCase("sreda"))
-						day = activity.getResources().getString(R.string.forecast_day_sreda);
-					if(day.equalsIgnoreCase("četrtek"))
-						day = activity.getResources().getString(R.string.forecast_day_cetrtek);
-					if(day.equalsIgnoreCase("petek"))
-						day = activity.getResources().getString(R.string.forecast_day_petek);
-					if(day.equalsIgnoreCase("sobota"))
-						day = activity.getResources().getString(R.string.forecast_day_sobota);
-					if(day.equalsIgnoreCase("nedelja"))
-						day = activity.getResources().getString(R.string.forecast_day_nedelja);
 					forecastDay = new ForecastDay(day, low, high, condition, wind,daytime);
 					out.add(forecastDay);
 				}
