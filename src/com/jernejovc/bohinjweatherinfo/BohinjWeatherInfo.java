@@ -35,8 +35,9 @@ public class BohinjWeatherInfo extends SherlockFragmentActivity {
 
 		mViewPager = new CustomViewPager(this);
 		mViewPager.setId(R.id.fragment_container);
-
+		
 		setContentView(mViewPager);
+		
 		ActionBar bar = getSupportActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
