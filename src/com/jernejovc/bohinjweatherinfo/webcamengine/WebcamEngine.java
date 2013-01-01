@@ -17,8 +17,8 @@ public class WebcamEngine {
 		webcamUrls.add(new String [] {"Vogel - 1","http://www.snezni-telefon.si/Images/Kamere/6_a.jpg"}); 
 		webcamUrls.add(new String [] {"Vogel - 2","http://www.snezni-telefon.si/Images/Kamere/6_b.jpg"});
 		webcamUrls.add(new String [] {"Vogel - 3","http://www.snezni-telefon.si/Images/Kamere/6_c.jpg"});
-		webcamUrls.add(new String [] {"Vogel - 4","http://www.skylinewebcams.com/images/cam/126.jpg"});
-		webcamUrls.add(new String [] {"Vogel - 5","http://www.skylinewebcams.com/images/cam/129.jpg"});
+		webcamUrls.add(new String [] {"Vogel - 4","http://cdn.skylinewebcams.com/img/cam/126.jpg"});
+		webcamUrls.add(new String [] {"Vogel - 5","http://cdn.skylinewebcams.com/img/cam/129.jpg"});
 		webcamUrls.add(new String [] {"Radarska slika", "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/radar.gif"});
 		webcamUrls.add(new String [] {"Radarska slika - animacija", "http://www.arso.gov.si/vreme/napovedi%20in%20podatki/radar_anim.gif"});
 		                                                                           
