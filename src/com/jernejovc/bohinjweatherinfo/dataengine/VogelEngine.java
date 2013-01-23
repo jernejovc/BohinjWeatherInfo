@@ -25,34 +25,34 @@ public class VogelEngine implements DataEngineInterface {
 		
 		String data1 = down.getPage("http://www.snezni-telefon.si/images/vogel/weather.js");
 		String [] data = data1.replaceAll("\t","").replaceAll("\r","").replaceAll("var","").replaceAll(";","").split("\n");
-		time = data[17].substring(data[17].indexOf('"'), data[17].length()).replaceAll("\"","");
+		try{
+			time = data[17].substring(data[17].indexOf('"'), data[17].length()).replaceAll("\"","");
+		}
+		catch(Exception e){}
 		data = data1.replaceAll("\t","").replaceAll("\r","").replaceAll("var","").replaceAll(";","").replaceAll(" ","").split("\n");
 		String page = down.getPage("http://www.vogel.si/zima");
 		
-		wind = data[3].substring(data[3].indexOf('"'), data[3].length()).replaceAll("\"","");
-		wind = wind + " " + data[0].substring(data[0].indexOf('"'), data[0].length()).replaceAll("\"","") + " m/s";
-		
-		temperature = data[4].substring(data[4].indexOf('"'), data[4].length()).replaceAll("\"","") + "°C";
+		try{
+			wind = data[3].substring(data[3].indexOf('"'), data[3].length()).replaceAll("\"","");
+			wind = wind + " " + data[0].substring(data[0].indexOf('"'), data[0].length()).replaceAll("\"","") + " m/s";
+		}
+		catch(Exception e)
+		{
+			wind = "N/A";
+		}
+		try{
+			temperature = data[4].substring(data[4].indexOf('"'), data[4].length()).replaceAll("\"","") + "°C";
+		}
+		catch(Exception e){}
 		Document doc = Jsoup.parse(page);
 		Element elt = doc.getElementById("blockStyle8382Sneznaodeja207");
-		snow = elt.getElementsByTag("p").get(0).text();
+		try{
+			snow = elt.getElementsByTag("p").get(0).text();
+		}
+		catch(Exception e){}
 
 		elt = doc.getElementById("blockStyle7932Obratovanje179");
-		
-//		for(Element tr : elt.getElementsByTag("tr"))
-//		{
-//			HashMap<String,String> map = new HashMap<String, String>();
-//			String name = tr.getElementsByClass("podatki3").text();
-//			String obratuje = tr.getElementsByTag("img").get(0).attr("alt");
-//			
-//			if(obratuje.contains("ne-obratuje"))
-//				obratuje = "ne-obratuje";
-//			else
-//				obratuje = "obratuje";
-//			
-//			map.put("data",obratuje);
-//			map.put("label", name);
-//		}		
+			
 		out[0] = time;
 		out[1] = temperature;
 		out[2] = wind;
