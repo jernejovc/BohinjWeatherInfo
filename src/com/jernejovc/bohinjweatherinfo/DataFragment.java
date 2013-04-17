@@ -15,6 +15,7 @@ import com.jernejovc.bohinjweatherinfo.dataengine.DataEngines;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -37,6 +38,9 @@ public class DataFragment extends Fragment{
 	boolean firstRun;
 	boolean helperTextsShown;
 	String locale;
+	static String preferencesName = "BohinjWeatherInfoPreferences";
+	static String preferencesKey = "DataFragmentSelectedValue";
+	SharedPreferences preferences;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class DataFragment extends Fragment{
 		firstRun = true;
 		helperTextsShown = true;
 		locale = Locale.getDefault().getLanguage();
+		preferences = getActivity().getSharedPreferences(preferencesName, 0);
 		View view = inflater.inflate(R.layout.data_layout, container, false);
 
 		String [] data_names = {"Bohinjska Bistrica", "Češnjica", "Jezero", "Vogel"};
@@ -62,7 +67,18 @@ public class DataFragment extends Fragment{
 
 			}
 		});
-
+		
+		String prefs_selected = preferences.getString(preferencesKey, "");
+		if(!prefs_selected.equals("")) {
+			int pos;
+			for(pos = 0; pos < data_names.length;  ++pos) {
+				if(data_names[pos].equals(prefs_selected)) {
+					dataSpin.setSelection(pos);
+					break;
+				}
+			}
+		}
+		
 		ImageView refresh = (ImageView) view.findViewById(R.id.dataRefresh);
 		refresh.setOnClickListener(new View.OnClickListener() {
 
@@ -102,11 +118,18 @@ public class DataFragment extends Fragment{
 		Spinner dataspin = (Spinner) getView().findViewById(R.id.dataSpinner); 
 		ImageView refresh = (ImageView) getView().findViewById(R.id.dataRefresh);
 		ProgressBar bar = (ProgressBar) getView().findViewById(R.id.dataprogress);
-
+		
 		refresh.setVisibility(View.GONE);
 		bar.setVisibility(View.VISIBLE);
 
 		String selected = (String) dataspin.getSelectedItem();
+		if(preferences == null) {
+			preferences = getActivity().getSharedPreferences(preferencesName, 0);
+		}
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(preferencesKey, selected);
+		editor.commit();
+		
 		DataEngines sel = DataEngines.JEZERO;
 		if (selected.equalsIgnoreCase("češnjica"))
 			sel = DataEngines.CESNJICA;

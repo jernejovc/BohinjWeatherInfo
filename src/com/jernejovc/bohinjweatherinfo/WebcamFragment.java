@@ -3,6 +3,7 @@ package com.jernejovc.bohinjweatherinfo;
 import com.jernejovc.bohinjweatherinfo.webcamengine.WebcamEngine;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -25,10 +26,14 @@ public class WebcamFragment extends Fragment{
 	WebcamEngine webcamEngine;
 	boolean firstRun;
 	boolean helperTextsShown;
+	static String preferencesName = "BohinjWeatherInfoPreferences";
+	static String preferencesKey = "WebcamFragmentSelectedValue";
+	SharedPreferences preferences;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		firstRun = true;
 		helperTextsShown = true;
+		preferences = getActivity().getSharedPreferences(preferencesName, 0);
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.webcam_layout, container, false);
 		ProgressBar bar = (ProgressBar) view.findViewById(R.id.webcamProgress);
@@ -57,6 +62,16 @@ public class WebcamFragment extends Fragment{
 
 			}
 		});
+		String prefs_selected = preferences.getString(preferencesKey, "");
+		if(!prefs_selected.equals("")) {
+			int pos;
+			for(pos = 0; pos < webcam_names.length;  ++pos) {
+				if(webcam_names[pos].equals(prefs_selected)) {
+					webspin.setSelection(pos);
+					break;
+				}
+			}
+		}
 		
 		refresh.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -95,6 +110,13 @@ public class WebcamFragment extends Fragment{
 				break;
 			}
 		}
+		if(preferences == null) {
+			preferences = getActivity().getSharedPreferences(preferencesName, 0);
+		}
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(preferencesKey, cam_name);
+		editor.commit();
+		
 		bar.setVisibility(View.VISIBLE);
 		String html = String.format("<html><body style=\"background:rgba(0,0,0,255);\"><img src=\"%s\" style=\"width:100%c\"/></body></html>", url, '%');
 		web.clearCache(true);
